@@ -1,4 +1,3 @@
-# views.py
 from rest_framework import viewsets
 from .models import Product, CompetitorPrice, PriceHistory, DemandForecast
 from .serializers import ProductSerializer, CompetitorPriceSerializer, PriceHistorySerializer, DemandForecastSerializer
