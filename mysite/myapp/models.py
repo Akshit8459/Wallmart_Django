@@ -1,23 +1,39 @@
+# models.py
 from django.db import models
 
-# Create your models here.
-
-class TodoItem(models.Model):
-    title = models.CharField(max_length=100)
-    completed = models.BooleanField(default=False)
-
-class Supplier(models.Model):
+class Product(models.Model):
     name = models.CharField(max_length=255)
-    sustainability_score = models.FloatField()
-    carbon_footprint = models.FloatField()  # e.g., kg CO2 per unit
+    sku = models.CharField(max_length=100, unique=True)
+    current_price = models.DecimalField(max_digits=10, decimal_places=2)
+    inventory_level = models.IntegerField()
 
-class DeliveryRoute(models.Model):
-    origin = models.CharField(max_length=255)
-    destination = models.CharField(max_length=255)
-    distance = models.FloatField()  # in kilometers
-    estimated_emissions = models.FloatField()  # in kg CO2
+    def __str__(self):
+        return self.name
 
-class EmissionData(models.Model):
-    route = models.ForeignKey(DeliveryRoute, on_delete=models.CASCADE)
+
+class CompetitorPrice(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='competitor_prices')
+    competitor_name = models.CharField(max_length=255)
+    price = models.DecimalField(max_digits=10, decimal_places=2)
     timestamp = models.DateTimeField(auto_now_add=True)
-    emissions = models.FloatField()  # in kg CO2
+
+    def __str__(self):
+        return f"{self.competitor_name} - {self.product.name}"
+
+
+class PriceHistory(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='price_history')
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.product.name} - {self.price} at {self.timestamp}"
+
+
+class DemandForecast(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='demand_forecasts')
+    predicted_demand = models.IntegerField()
+    forecast_date = models.DateField()
+
+    def __str__(self):
+        return f"{self.product.name} - {self.predicted_demand} on {self.forecast_date}"
