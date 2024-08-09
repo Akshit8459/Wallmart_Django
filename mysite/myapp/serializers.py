@@ -1,17 +1,26 @@
+# serializers.py
 from rest_framework import serializers
-from .models import Supplier, DeliveryRoute, EmissionData
+from .models import Product, CompetitorPrice, PriceHistory, DemandForecast
 
-class SupplierSerializer(serializers.ModelSerializer):
+class ProductSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Supplier
+        model = Product
         fields = '__all__'
 
-class DeliveryRouteSerializer(serializers.ModelSerializer):
+
+class CompetitorPriceSerializer(serializers.ModelSerializer):
     class Meta:
-        model = DeliveryRoute
+        model = CompetitorPrice
         fields = '__all__'
 
-class EmissionDataSerializer(serializers.ModelSerializer):
+
+class PriceHistorySerializer(serializers.ModelSerializer):
     class Meta:
-        model = EmissionData
+        model = PriceHistory
+        fields = '__all__'
+
+
+class DemandForecastSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = DemandForecast
         fields = '__all__'
