@@ -1,32 +1,23 @@
-from django.shortcuts import render, HttpResponse
-from .models import TodoItem,Supplier, DeliveryRoute, EmissionData
-from .serializers import SupplierSerializer, DeliveryRouteSerializer, EmissionDataSerializer
+# views.py
+from rest_framework import viewsets
+from .models import Product, CompetitorPrice, PriceHistory, DemandForecast
+from .serializers import ProductSerializer, CompetitorPriceSerializer, PriceHistorySerializer, DemandForecastSerializer
 
-# Create your views here.
-def home(request):
-    return render(request,'home.html')
+class ProductViewSet(viewsets.ModelViewSet):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
 
-def todos(request):
-    items=TodoItem.objects.all()
-    return render(request,'todos.html',{"todos":items}) 
 
-def SupplierViewSet(# viewsets.ModelViewSet
-request):
-    '''this will be class not def'''
-    queryset = Supplier.objects.all()
-    serializer_class = SupplierSerializer
-    return HttpResponse('supplier portal')
+class CompetitorPriceViewSet(viewsets.ModelViewSet):
+    queryset = CompetitorPrice.objects.all()
+    serializer_class = CompetitorPriceSerializer
 
-def DeliveryRouteViewSet(
-    # viewsets.ModelViewSet
-     request):
-    queryset = DeliveryRoute.objects.all()
-    serializer_class = DeliveryRouteSerializer
-    return HttpResponse('delivery route portal')
 
-def EmissionDataViewSet(
-    # viewsets.ModelViewSet
-    request):
-    queryset = EmissionData.objects.all()
-    serializer_class = EmissionDataSerializer
-    return HttpResponse('emission data portal')
+class PriceHistoryViewSet(viewsets.ModelViewSet):
+    queryset = PriceHistory.objects.all()
+    serializer_class = PriceHistorySerializer
+
+
+class DemandForecastViewSet(viewsets.ModelViewSet):
+    queryset = DemandForecast.objects.all()
+    serializer_class = DemandForecastSerializer
