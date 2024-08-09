@@ -1,10 +1,14 @@
-from django.urls import path
-from . import views
+# urls.py
+from django.urls import include, path
+from rest_framework.routers import DefaultRouter
+from .views import ProductViewSet, CompetitorPriceViewSet, PriceHistoryViewSet, DemandForecastViewSet
+
+router = DefaultRouter()
+router.register(r'products', ProductViewSet)
+router.register(r'competitor-prices', CompetitorPriceViewSet)
+router.register(r'price-history', PriceHistoryViewSet)
+router.register(r'demand-forecasts', DemandForecastViewSet)
 
 urlpatterns = [
-    path('',views.home,name='home'),
-    path('todos/',views.todos,name='todos'),
-    path('suppliers/', views.SupplierViewSet),
-    path('delivery_routes/', views.DeliveryRouteViewSet),
-    path('emission_data/', views.EmissionDataViewSet),
+    path('', include(router.urls)),
 ]
